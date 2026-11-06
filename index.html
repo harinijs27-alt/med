@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediSync | Hospital Command Center</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">✚</div>
+
+            <div>
+                <h1>MediSync</h1>
+                <span>Hospital Orchestration</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button class="nav-btn active" data-page="command">
+                <span>◈</span>
+                Command Center
+            </button>
+
+            <button class="nav-btn" data-page="patients">
+                <span>♙</span>
+                Patients
+            </button>
+
+            <button class="nav-btn" data-page="resources">
+                <span>▦</span>
+                Resources
+            </button>
+
+            <button class="nav-btn" data-page="emergency">
+                <span>⚠</span>
+                Emergency
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-dot"></div>
+
+            <div>
+                <strong>System Online</strong>
+                <small>ESP32 + MediSync Engine</small>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h2 id="pageTitle">
+                    Command Center
+                </h2>
+
+                <p>
+                    Intelligent Hospital Resource Orchestration
+                </p>
+
+            </div>
+
+
+            <div class="top-status">
+
+                <span class="status-dot"></span>
+
+                LIVE
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================================= -->
+        <!-- COMMAND CENTER -->
+        <!-- ================================================= -->
+
+        <section id="page-command" class="page active">
+
+            <!-- HERO -->
+
+            <div class="hero">
+
+                <div>
+
+                    <span class="eyebrow">
+                        NORMAL WARD • REAL-TIME OPERATIONS
+                    </span>
+
+                    <h2>
+                        Sense. Predict. Allocate. Escalate.
+                    </h2>
+
+                    <p>
+                        MediSync coordinates patient monitoring,
+                        staff response and hospital resources from
+                        one command center.
+                    </p>
+
+                </div>
+
+
+                <button id="simulateEmergency"
+                        class="emergency-btn">
+
+                    🚨 SIMULATE EMERGENCY
+
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <span>Patients</span>
+
+                    <strong id="patientCount">
+                        55
+                    </strong>
+
+                    <small>
+                        1 live + 54 MIMIC DATA
+                    </small>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>Beds Available</span>
+
+                    <strong id="bedsAvailable">
+                        —
+                    </strong>
+
+                    <small>
+                        Ward capacity
+                    </small>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>Staff Available</span>
+
+                    <strong id="staffAvailable">
+                        —
+                    </strong>
+
+                    <small>
+                        Ready to respond
+                    </small>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>Equipment Available</span>
+
+                    <strong id="equipmentAvailable">
+                        —
+                    </strong>
+
+                    <small>
+                        Shared resources
+                    </small>
+
+                </div>
+
+            </div>
+
+            <!-- ========================================================= -->
+<!-- HOSPITAL PULSE ANALYTICS -->
+<!-- ========================================================= -->
+
+<div class="analytics-section-title">
+
+    <div>
+        <h3>Hospital Pulse</h3>
+        <p>
+            Real-time patient flow, vital trends and ward capacity
+        </p>
+    </div>
+
+    <span class="analytics-live-badge">
+        ● LIVE ANALYTICS
+    </span>
+
+</div>
+
+
+<div class="analytics-grid">
+
+    <!-- ===================================================== -->
+    <!-- PATIENT FLOW -->
+    <!-- ===================================================== -->
+
+    <div class="analytics-card analytics-flow-card">
+
+        <div class="analytics-card-head">
+
+            <div>
+                <span class="analytics-label">
+                    PATIENT FLOW
+                </span>
+
+                <h4>
+                    Monitored vs Flagged Patients
+                </h4>
+            </div>
+
+            <span class="analytics-period">
+                MIMIC-IV • BY HOUR OF DAY
+            </span>
+
+        </div>
+
+
+        <div class="flow-mini-stats">
+
+            <div>
+                <span>MONITORED</span>
+                <strong id="analyticsInpatients">--</strong>
+            </div>
+
+            <div>
+                <span>FLAGGED NOW</span>
+                <strong id="analyticsOutpatients">--</strong>
+            </div>
+
+            <div>
+                <span>REGISTERED</span>
+                <strong id="analyticsArrivals">--</strong>
+            </div>
+
+        </div>
+
+
+        <div class="chart-wrap">
+
+            <canvas id="patientFlowChart"></canvas>
+
+        </div>
+
+        <div style="display:flex;gap:16px;font-size:11px;color:#64748b;padding:6px 4px 0;">
+            <span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2563eb;margin-right:5px;"></i>Flagged (abnormal vitals)</span>
+            <span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:5px;"></i>Monitored patients</span>
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- VITAL TRENDS -->
+    <!-- ===================================================== -->
+
+    <div class="analytics-card analytics-vitals-card">
+
+        <div class="analytics-card-head">
+
+            <div>
+                <span class="analytics-label">
+                    P001 • LIVE HARDWARE
+                </span>
+
+                <h4>
+                    Vital Trends
+                </h4>
+            </div>
+
+            <span class="analytics-period">
+                LIVE WINDOW
+            </span>
+
+        </div>
+
+
+        <div class="trend-legend">
+
+            <span>
+                <i class="legend-dot hr-dot"></i>
+                Heart Rate
+            </span>
+
+            <span>
+                <i class="legend-dot spo2-dot"></i>
+                SpO₂
+            </span>
+
+        </div>
+
+
+        <div class="chart-wrap">
+
+            <canvas id="vitalsTrendChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- BED OCCUPANCY -->
+    <!-- ===================================================== -->
+
+    <div class="analytics-card analytics-occupancy-card">
+
+        <div class="analytics-card-head">
+
+            <div>
+                <span class="analytics-label">
+                    WARD CAPACITY
+                </span>
+
+                <h4>
+                    Bed Occupancy
+                </h4>
+            </div>
+
+            <span class="analytics-period">
+                CURRENT
+            </span>
+
+        </div>
+
+
+        <div class="occupancy-content">
+
+            <div
+                id="occupancyRing"
+                class="occupancy-ring"
+                style="--occupancy: 0%;"
+            >
+
+                <div class="occupancy-ring-inner">
+
+                    <strong id="occupancyPercent">
+                        --%
+                    </strong>
+
+                    <span>
+                        OCCUPIED
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="occupancy-stats">
+
+                <div>
+                    <span>OCCUPIED</span>
+                    <strong id="analyticsOccupiedBeds">
+                        --
+                    </strong>
+                </div>
+
+                <div>
+                    <span>AVAILABLE</span>
+                    <strong id="analyticsAvailableBeds">
+                        --
+                    </strong>
+                </div>
+
+                <div>
+                    <span>TOTAL BEDS</span>
+                    <strong id="analyticsTotalBeds">
+                        --
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- LIVE HARDWARE -->
+
+            <div class="section-title">
+
+                <div>
+
+                    <h3>
+                        Live Hardware
+                    </h3>
+
+                    <p>
+                        P001 • Physical ward monitoring node
+                    </p>
+
+                </div>
+
+
+                <span id="hardwareBadge"
+                      class="badge offline">
+
+                    CONNECTING
+
+                </span>
+
+            </div>
+
+
+            <div class="hardware-grid">
+
+
+                <!-- HEART RATE -->
+
+                <div class="hardware-card">
+
+                    <div class="card-head">
+
+                        <span>
+                            ❤️ Heart Rate
+                        </span>
+
+                        <span class="live-label">
+                            LIVE
+                        </span>
+
+                    </div>
+
+                    <strong id="hardwareHR">
+                        --
+                    </strong>
+
+                    <small>
+                        BPM
+                    </small>
+
+                </div>
+
+
+                <!-- SPO2 -->
+
+                <div class="hardware-card">
+
+                    <div class="card-head">
+
+                        <span>
+                            🫁 SpO₂
+                        </span>
+
+                        <span class="live-label">
+                            LIVE
+                        </span>
+
+                    </div>
+
+                    <strong id="hardwareSpO2">
+                        --
+                    </strong>
+
+                    <small>
+                        %
+                    </small>
+
+                </div>
+
+
+                <!-- ================= BIG IV MONITOR ================= -->
+
+                <div class="hardware-card iv-card">
+
+                    <div class="iv-card-header">
+
+                        <div>
+
+                            <div class="card-head iv-title">
+
+                                <span>
+                                    💧 LIVE IV INFUSION MONITOR
+                                </span>
+
+                                <span class="live-label">
+                                    ● HX711 LIVE
+                                </span>
+
+                            </div>
+
+
+                            <div class="iv-bed-label">
+
+                                P001 • WARD-BED-01
+
+                            </div>
+
+                        </div>
+
+
+                        <span id="ivStatusBadge"
+                              class="badge">
+
+                            --
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="iv-monitor-body">
+
+
+                        <!-- IV VISUAL -->
+
+                        <div class="iv-visual">
+
+                            <div class="iv-bottle-large">
+
+                                <div class="iv-neck"></div>
+
+                                <div class="iv-cap"></div>
+
+
+                                <div id="ivLiquid"
+                                     class="iv-liquid-large">
+
+
+                                    <span class="iv-bubble bubble-one">
+                                    </span>
+
+                                    <span class="iv-bubble bubble-two">
+                                    </span>
+
+                                    <span class="iv-bubble bubble-three">
+                                    </span>
+
+
+                                </div>
+
+
+                                <div class="iv-level-text">
+
+                                    <strong id="ivLevelText">
+                                        --%
+                                    </strong>
+
+                                    <small>
+                                        REMAINING
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="iv-tube">
+
+                                <span class="iv-drip">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- IV READING -->
+
+                        <div class="iv-reading">
+
+                            <div class="iv-reading-label">
+
+                                CURRENT IV LEVEL
+
+                            </div>
+
+
+                            <div class="iv-big-number">
+
+                                <strong id="hardwareIV">
+                                    --
+                                </strong>
+
+                                <span>
+                                    mL
+                                </span>
+
+                            </div>
+
+
+                            <div class="iv-equivalent">
+
+                                Weight-calibrated IV estimate
+
+                            </div>
+
+
+                            <div class="iv-status-box">
+
+                                <span class="iv-status-dot">
+                                </span>
+
+
+                                <div>
+
+                                    <strong id="ivMonitorStatus">
+
+                                        Waiting for sensor
+
+                                    </strong>
+
+
+                                    <small>
+
+                                        Live load-cell measurement
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BED -->
+
+                <div class="hardware-card">
+
+                    <div class="card-head">
+
+                        <span>
+                            🛏 Bed
+                        </span>
+
+                    </div>
+
+                    <strong id="bedStatus">
+                        --
+                    </strong>
+
+                    <small>
+                        WARD-BED-01
+                    </small>
+
+                </div>
+
+
+                <!-- NURSE -->
+
+                <div class="hardware-card">
+
+                    <div class="card-head">
+
+                        <span>
+                            👩‍⚕️ Nurse
+                        </span>
+
+                    </div>
+
+                    <strong id="nurseStatus">
+                        --
+                    </strong>
+
+                    <small id="nurseProximity">
+                        --
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- DIGITAL TWINS -->
+
+            <div class="section-title">
+
+                <div>
+
+                    <h3>
+                        Ward Patient Network
+                    </h3>
+
+                    <p>
+                        P001 live hardware + P002–P011 digital twins
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="patientGrid"
+                 class="patient-grid">
+            </div>
+
+
+            <!-- EVENTS -->
+
+            <div class="section-title">
+
+                <div>
+
+                    <h3>
+                        Live Event Timeline
+                    </h3>
+
+                    <p>
+                        Latest MediSync decisions and alerts
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="eventTimeline"
+                 class="event-timeline">
+            </div>
+<!-- ================= WARD DEMAND FORECAST ================= -->
+
+<div class="section-title">
+
+    <div>
+        <h3>📈 Ward Demand Forecast</h3>
+        <p>
+            Explainable prediction from current patient and resource state
+        </p>
+    </div>
+
+    <span id="forecastDemandBadge" class="badge">
+        CALCULATING
+    </span>
+
+</div>
+
+<div class="forecast-panel">
+
+    <div class="forecast-summary">
+
+        <div class="forecast-stat">
+            <span>Patient Load</span>
+            <strong id="forecastPatients">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Critical</span>
+            <strong id="forecastCritical">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>High</span>
+            <strong id="forecastHigh">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Watch</span>
+            <strong id="forecastWatch">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Available Beds</span>
+            <strong id="forecastBeds">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Available Staff</span>
+            <strong id="forecastStaff">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Available Doctors</span>
+            <strong id="forecastDoctors">--</strong>
+        </div>
+
+        <div class="forecast-stat">
+            <span>Available Equipment</span>
+            <strong id="forecastEquipment">--</strong>
+        </div>
+
+    </div>
+
+    <div class="forecast-actions">
+
+        <h4>Recommended Actions</h4>
+
+        <div id="forecastRecommendations">
+            <div class="forecast-loading">
+                Calculating ward demand...
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- PATIENTS -->
+        <!-- ================================================= -->
+
+        <section id="page-patients"
+                 class="page">
+
+            <div class="page-heading">
+
+                <h2>
+                    Patient Operations
+                </h2>
+
+                <p>
+                    Live hardware patient and digital ward twins
+                </p>
+
+            </div>
+
+
+            <div id="patientTable"
+                 class="patient-table">
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- RESOURCES -->
+        <!-- ================================================= -->
+
+        <section id="page-resources"
+                 class="page">
+
+            <div class="page-heading">
+
+                <h2>
+                    Hospital Resources
+                </h2>
+
+                <p>
+                    Real-time resource availability and allocation
+                </p>
+
+            </div>
+
+
+            <div class="resource-columns">
+
+
+                <div class="resource-panel">
+
+                    <h3>
+                        🛏 Beds
+                    </h3>
+
+                    <div id="bedsList"></div>
+
+                </div>
+
+
+                <div class="resource-panel">
+
+                    <h3>
+                        👩‍⚕️ Staff
+                    </h3>
+
+                    <div id="staffList"></div>
+
+                </div>
+
+
+                <div class="resource-panel">
+
+                    <h3>
+                        ⚕ Equipment
+                    </h3>
+
+                    <div id="equipmentList"></div>
+
+                </div>
+
+
+                <div class="resource-panel">
+
+                    <h3>
+                        🏥 OT
+                    </h3>
+
+                    <div id="otList"></div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- EMERGENCY -->
+        <!-- ================================================= -->
+
+        <section id="page-emergency"
+                 class="page">
+
+            <div class="page-heading">
+
+                <h2>
+                    Emergency Response
+                </h2>
+
+                <p>
+                    Real-time escalation and resource orchestration
+                </p>
+
+            </div>
+
+
+            <div id="emergencyPanel"
+                 class="emergency-panel">
+
+
+                <div class="no-emergency">
+
+                    <div class="large-icon">
+                        ✓
+                    </div>
+
+
+                    <h3>
+                        No active emergency
+                    </h3>
+
+
+                    <p>
+                        The ward is currently operating normally.
+                    </p>
+
+
+                    <button id="simulateEmergency2"
+                            class="emergency-btn">
+
+                        🚨 Simulate Emergency
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ================= EMERGENCY OVERLAY ================= -->
+
+<div id="emergencyOverlay"
+     class="emergency-overlay">
+
+
+    <div class="emergency-modal">
+
+        <div class="alarm-icon">
+            🚨
+        </div>
+
+
+        <h2>
+            EMERGENCY RESPONSE ACTIVE
+        </h2>
+
+
+        <p id="emergencyMessage">
+            Critical patient condition detected.
+        </p>
+
+
+        <div id="emergencyDetails"
+             class="emergency-details">
+        </div>
+
+
+        <div class="emergency-actions">
+
+            <button id="acknowledgeEmergency"
+                    class="ack-btn">
+
+                ACKNOWLEDGE & RESPOND
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
